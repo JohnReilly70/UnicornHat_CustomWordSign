@@ -5,9 +5,10 @@ Importing Librarys required for use of unicornhat
     -characterLibrary has characters created in a 8x8 matrix, will check message to make sure all characters available
 '''
 
-'''import unicornhat as UH
+#import unicornhat as UH
 import time
-import characterLibrary'''
+import characterLibrary as cL
+import sys
 
 def userInput():
     '''
@@ -23,12 +24,21 @@ def messageConvertToList(msg):
     :return: list with all characters including whitespace
     '''
     listMsg = []
-    for char in msg:
+    for char in msg.upper():
         listMsg.append(char)
     return listMsg
 
-def main():
-    print(messageConvertToList("Hello i am john"))
+def characterConverter(listMsg):
     pass
 
-main()
+def main():
+    print(characterConverter(messageConvertToList("Hi")))
+    pass
+
+
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        main()
+    else:
+        #add interface to allow command line options ot be added
+        main()
