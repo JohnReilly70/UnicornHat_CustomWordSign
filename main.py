@@ -29,7 +29,25 @@ def messageConvertToList(msg):
     return listMsg
 
 def characterConverter(listMsg):
-    pass
+    '''
+    Converts the list message to a list of co-ordinates [x,y] with the appropriate spacing between letters
+
+    :param listMsg: Message to be converted
+    :return: converted Message in [X,Y] with appropriate spacing
+    '''
+    convertedMsg = []
+    spacing = 0
+    for char in listMsg:
+        tempCoOrd = []
+        for CoOrds in cL.updatedCharDict[char]['Properties']['CoOrd']:
+            CoOrds[0] += spacing
+            tempCoOrd.append((CoOrds))
+
+        convertedMsg.append(tempCoOrd)
+
+        spacing += cL.updatedCharDict[char]['Properties']['CharLength']
+
+    return convertedMsg
 
 def main():
     print(characterConverter(messageConvertToList("Hi")))
