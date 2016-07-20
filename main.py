@@ -9,6 +9,7 @@ Importing Librarys required for use of unicornhat
 import time
 import characterLibrary as cL
 import sys
+import copy
 
 def userInput():
     '''
@@ -35,18 +36,21 @@ def characterConverter(listMsg):
     :param listMsg: Message to be converted
     :return: converted Message in [X,Y] with appropriate spacing
     '''
+
     convertedMsg = []
     spacing = 0
+
     for char in listMsg:
-        tempCoOrd = []
-        for CoOrds in cL.updatedCharDict[char]['Properties']['CoOrd']:
+        tempList = []
+        tempDictCoOrd = copy.deepcopy(cL.updatedCharDict[char]['Properties']['CoOrd'][:])
+
+        for CoOrds in tempDictCoOrd:
             CoOrds[0] += spacing
-            tempCoOrd.append((CoOrds))
+            tempList.append(CoOrds)
 
-        convertedMsg.append(tempCoOrd)
+        convertedMsg.append(tempList)
 
-        spacing += cL.updatedCharDict[char]['Properties']['CharLength']
-
+        spacing = cL.updatedCharDict[char]['Properties']['CharLength']
     return convertedMsg
 
 def main():
