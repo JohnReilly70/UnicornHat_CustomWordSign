@@ -50,17 +50,40 @@ def characterConverter(listMsg):
 
         convertedMsg.append(tempList)
 
-        spacing = cL.updatedCharDict[char]['Properties']['CharLength']
+        spacing += cL.updatedCharDict[char]['Properties']['CharLength']
     return convertedMsg
 
-def main():
-    print(characterConverter(messageConvertToList("Hi")))
-    pass
+def argParseFunc():
+    import argparse
+    import textwrap
+
+    parser = argparse.ArgumentParser(prog='MessageDiplayUnicornHat',
+                                     formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     description=textwrap.dedent(
+                                         '''
+                                         *** Display user message on UnicornHat ***\n
+
+                                         Input message as a string i.e. quotations; single (') or double (")
+
+                                         E.g.  -m 'Hello' or --message "Hi"
+                                     '''))
+
+    parser.add_argument('-m', '--message', nargs=1, type=str,
+                        help='Enter message you wish to display on UnicornHat', metavar='Message')
+
+    args = parser.parse_args()
+
+    return (args.message[0])
+
+def main(msg):
+    print(characterConverter(messageConvertToList(msg)))
 
 
 if __name__ == '__main__':
+    '''If program ran without without arguments (sys.argv == 1, ie main.py), run through userInput function'''
     if len(sys.argv) == 1:
-        main()
+        main(userInput())
     else:
-        #add interface to allow command line options ot be added
-        main()
+        '''Else it will run argParseFunc function, using the arguments give when program was ran in command line. (>> python main.py -m "Hi")'''
+        print(sys.argv)
+        main(argParseFunc())
