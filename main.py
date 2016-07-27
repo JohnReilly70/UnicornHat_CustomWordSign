@@ -38,17 +38,17 @@ def characterConverter(listMsg):
     '''
 
     convertedMsg = []
-    spacing = 0
+    spacing = cL.updatedCharDict[listMsg[0]]['Properties']['CharLength'] + 1 #take first char length -1 as all chars lengths in dictionary are +1 from their size,so list will start -1 from the edge instead of -2.
 
     for char in listMsg:
         tempList = []
         tempDictCoOrd = copy.deepcopy(cL.updatedCharDict[char]['Properties']['CoOrd'][:])
 
         for CoOrds in tempDictCoOrd:
-            CoOrds[0] += spacing
+            CoOrds[0] -= spacing
             tempList.append(CoOrds)
 
-        convertedMsg.append(tempList)
+        convertedMsg.extend(tempList)
 
         spacing += cL.updatedCharDict[char]['Properties']['CharLength']
     return convertedMsg
@@ -75,8 +75,41 @@ def argParseFunc():
 
     return (args.message[0])
 
+def ArrayLoopFunc(listConv):
+
+    import copy
+    frame = []
+    animation = []
+
+
+
+    animationLength = min(min(listConv)) - 7
+
+    while animationLength < 0:
+
+        for index, var in enumerate(listConv):
+
+            if ((var[0] > -1) & (var[0] < 8)):
+                varcopy = copy.deepcopy(var)
+                frame.append(varcopy)
+                listConv[index][0] += 1
+            else:
+
+                listConv[index][0] += 1
+                continue
+
+        if frame:
+            animation.append(copy.deepcopy(frame))
+        frame[:] = []
+
+        animationLength += 1
+
+    return animation
+
+
 def main(msg):
-    print(characterConverter(messageConvertToList(msg)))
+    print(ArrayLoopFunc(characterConverter(messageConvertToList(msg))))
+    #SORT OUT THE CHARACTERS ARE THEY ARE SENT IN MIRROR IMAGE
 
 
 if __name__ == '__main__':
