@@ -10,6 +10,8 @@ import time
 import characterLibrary as cL
 import sys
 import copy
+import argparse
+import textwrap
 
 def userInput():
     '''
@@ -54,8 +56,6 @@ def characterConverter(listMsg):
     return convertedMsg
 
 def argParseFunc():
-    import argparse
-    import textwrap
 
     parser = argparse.ArgumentParser(prog='MessageDiplayUnicornHat',
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -75,9 +75,8 @@ def argParseFunc():
 
     return (args.message[0])
 
-def ArrayLoopFunc(listConv):
-
-    import copy
+def frameConvToAnimation(listConv):
+    
     frame = []
     animation = []
 
@@ -108,7 +107,7 @@ def ArrayLoopFunc(listConv):
 
 
 def main(msg):
-    print(ArrayLoopFunc(characterConverter(messageConvertToList(msg))))
+    print(frameConvToAnimation(characterConverter(messageConvertToList(msg))))
     #SORT OUT THE CHARACTERS ARE THEY ARE SENT IN MIRROR IMAGE
 
 
