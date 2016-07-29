@@ -5,7 +5,7 @@ Importing Librarys required for use of unicornhat
     -characterLibrary has characters created in a 8x8 matrix, will check message to make sure all characters available
 '''
 
-#import unicornhat as UH
+import unicornhat as UH
 import time
 import characterLibrary as cL
 import sys
@@ -15,8 +15,9 @@ def userInput():
     '''
     Simple userInput function to keep the design simple on the console
     '''
-    Message = str(input("\nInput: "))
+    Message = (input("\nInput: "))
     return  Message
+
 
 def messageConvertToList(msg):
     '''
@@ -53,6 +54,7 @@ def characterConverter(listMsg):
         spacing += cL.updatedCharDict[char]['Properties']['CharLength']
     return convertedMsg
 
+
 def argParseFunc():
     import argparse
     import textwrap
@@ -75,6 +77,7 @@ def argParseFunc():
 
     return (args.message[0])
 
+
 def ArrayLoopFunc(listConv):
 
     import copy
@@ -94,12 +97,13 @@ def ArrayLoopFunc(listConv):
                 frame.append(varcopy)
                 listConv[index][0] += 1
             else:
-
                 listConv[index][0] += 1
                 continue
 
         if frame:
             animation.append(copy.deepcopy(frame))
+        else:
+            animation.append('w')
         frame[:] = []
 
         animationLength += 1
@@ -107,9 +111,31 @@ def ArrayLoopFunc(listConv):
     return animation
 
 
+def unicornHatUpdater(animation):
+    # go through each slide
+    for slide in animation:
+        # animation[0] = slide = [[1,1],[2,2]]
+
+        if slide == 'w':
+            UH.clear()
+            UH.show()
+            time.sleep(0.1)
+        else:
+            for CoOrd in slide:
+                # slide[0] = CoOrd = [1,1]
+
+                UH.set_pixel(CoOrd[0], CoOrd[1], 255, 0, 0)
+
+            # once all pixels set show and wait THEN clear
+            UH.show()
+            time.sleep(0.1)
+            UH.clear()
+
 def main(msg):
-    print(ArrayLoopFunc(characterConverter(messageConvertToList(msg))))
-    #SORT OUT THE CHARACTERS ARE THEY ARE SENT IN MIRROR IMAGE
+    Frames = (ArrayLoopFunc(characterConverter(messageConvertToList(msg))))
+
+    while True:
+        unicornHatUpdater(Frames)
 
 
 if __name__ == '__main__':
