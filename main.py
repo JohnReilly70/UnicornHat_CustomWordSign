@@ -78,68 +78,38 @@ def argParseFunc():
     return (args.message[0])
 
 
-def ArrayLoopFunc(listConv):
+def AnimationFunc(listConv):
 
-    import copy
-    frame = []
-    animation = []
-
-
-
-    animationLength = min(min(listConv)) - 7
+    animationLength = min(min(listConv)) - 9
 
     while animationLength < 0:
 
         for index, var in enumerate(listConv):
 
             if ((var[0] > -1) & (var[0] < 8)):
-                varcopy = copy.deepcopy(var)
-                frame.append(varcopy)
+                UH.set_pixel(var[0],var[1],255,255,255)
                 listConv[index][0] += 1
             else:
                 listConv[index][0] += 1
                 continue
-
-        if frame:
-            animation.append(copy.deepcopy(frame))
-        else:
-            animation.append('w')
-        frame[:] = []
-
+        UH.show()
+        time.sleep(0.1)
+        UH.clear()
         animationLength += 1
 
-    return animation
 
 
-def unicornHatUpdater(animation):
-    # go through each slide
-    for slide in animation:
-        # animation[0] = slide = [[1,1],[2,2]]
-
-        if slide == 'w':
-            UH.clear()
-            UH.show()
-            time.sleep(0.1)
-        else:
-            for CoOrd in slide:
-                # slide[0] = CoOrd = [1,1]
-
-                UH.set_pixel(CoOrd[0], CoOrd[1], 255, 0, 0)
-
-            # once all pixels set show and wait THEN clear
-            UH.show()
-            time.sleep(0.1)
-            UH.clear()
 
 def main(msg):
-    Frames = (ArrayLoopFunc(characterConverter(messageConvertToList(msg))))
-
+    Frames = ((characterConverter(messageConvertToList(msg))))
     while True:
-        unicornHatUpdater(Frames)
+        loopFrames = copy.deepcopy(Frames)
+        AnimationFunc(loopFrames)
+
 
 
 if __name__ == '__main__':
-    '''If program ran without without arguments (sys.argv == 1, ie main.py), run through userInput function'''
+    '''If program ran without without arguments (sys.argv == 1, ie print (sys.argv) == [main.py]), run through userInput function'''
     if len(sys.argv) == 1:
         main(userInput())
     else:
